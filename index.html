@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/css/normalize.css">
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <script src="./assets/libs/jquery-1.12.4.min.js"></script>
+
+  <title>Калькулятор на Jquery</title>
+</head>
+
+<body>
+  <section id="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="calc">
+            <h2>Рассчет стоимости</h2>
+            <div>
+              <label for="card_edition">Выберите тираж</label>
+              <select class="form-control" name="edititon" id="card_edition">
+                <option value="0">Кол-во визиток</option>
+                <option value="90">90</option>
+                <option value="120">120</option>
+                <option value="150">150</option>
+                <option value="180">180</option>
+                <option value="210">210</option>
+                <option value="240">240</option>
+                <option value="270">270</option>
+                <option value="300">300</option>
+                <option value="360">360</option>
+                <option value="420">420</option>
+                <option value="510">510</option>
+                <option value="600">600</option>
+                <option value="900">900</option>
+                <option value="1020">1020</option>
+                <option value="1500">1500</option>
+                <option value="3000">3000</option>
+              </select>
+            </div>
+            <div>
+              <label for="card_paper">Выберите тип бумаги</label>
+              <select name="card_paper" id="card_paper" class="form-control">
+                <!-- <option value="">Бумага для визиток</option> -->
+                <option data-paper-ratio="6.8" value="Мелованная бцмага (белая)">Мелованная бумага (белая)</option>
+                <option data-paper-ratio="40.5" value="Бумага повышенной белезны (SPLENDORGEL)">Бумага повышенной
+                  белезны (SPLENDORGEL)</option>
+                <option data-paper-ratio="45" value="Prestige Лён (белый)">Prestige Лён (белый)</option>
+              </select>
+            </div>
+            <div>
+              <label for="card_color">Выберите цветность</label>
+              <select name="card_color" id="card_color" class="form-control">
+
+                <option data-print-price-impression="14" data-price-print="110" data-color="1"
+                  value="Односторонняя черно-белая" default>Односторонняя черно-белая</option>
+                <option data-print-price-impression="28" data-price-print="220" data-color="2"
+                  value="Двусторонняя черно-белая">Двусторонняя черно-белая</option>
+                <option data-print-price-impression="37" data-price-print="110" data-color="3"
+                  value="Односторонняя цветная">Односторонняя цветная</option>
+                <option data-print-price-impression="51" data-price-print="220" data-color="4"
+                  value="Цветная с лицевой стороны и ч/б с оборотной ">Цветная с лицевой стороны и ч/б с оборотной
+                </option>
+                <option data-print-price-impression="74" data-price-print="220" data-color="5"
+                  value="Двусторонняя цветная">Двусторонняя цветная</option>
+
+              </select>
+            </div>
+            <h4 class="col-sm-8 title-price"><small>Приблизительная</small>
+              стоимость за тираж</h4>
+            <p class="price"><span id="final_price">0</span> руб.</p>
+          </div>
+
+        </div>
+        <div class="col-sm-8">
+          <div class="card-images">
+            <img src="./assets/img/1_0.jpg" alt="1_0" id="card-1">
+            <img src="./assets/img/1_1.jpg" alt="1_1" id="card-2">
+            <img src="./assets/img/4_0.jpg" alt="4_0" id="card-3">
+            <img src="./assets/img/4_1.jpg" alt="4_1" id="card-4">
+            <img src="./assets/img/4_4.jpg" alt="4_4" id="card-5">
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    $(document).ready(function () {
+      $('.calc select').change(function () {
+        $edition = $('select#card_edition').val()
+        $paper = $('select#card_paper').val()
+        $color = $('select#card_color').val()
+        $paperRatio = $('#card_paper option:selected').attr('data-paper-ratio')
+        $printPrice = $('#card_color option:selected').attr('data-price-print')
+        $priceImpression = $('#card_color option:selected').attr('data-print-price-impression')
+        $colorFormatData = $('#card_color option:selected').attr('data-color')
+
+        $division = 30;
+        if ($colorFormatData) {
+          $('.card-images img').hide()
+          $(`.card-images #card-${$colorFormatData}`).show()
+        }
+
+        if ($edition > 0) {
+          $final_edition = $edition / $division
+          $price = $final_edition * $paperRatio + parseInt($printPrice) + $final_edition * $priceImpression
+
+          $('#final_price').text($price);
+        } else {
+          $('#final_price').text('0')
+        }
+
+
+      })
+
+
+
+    })
+  </script>
+</body>
+
+</html>
